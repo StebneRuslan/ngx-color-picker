@@ -42,7 +42,7 @@
       <input *ngIf="cpAlphaChannel!=='disabled'" type="number" pattern="[0-9]+([\.,][0-9]{1,2})?" min="0" max="1" step="0.1" [text] [rg]="1" [value]="cmykText?.a" (keyup.enter)="onAcceptColor($event)" (newValue)="onAlphaInput($event)" />
     </div>
 
-     <div class="box">
+    <div class="box">
       <div>C</div><div>M</div><div>Y</div><div>K</div><div *ngIf="cpAlphaChannel!=='disabled'" >A</div>
     </div>
   </div>
@@ -74,7 +74,7 @@
   </div>
 
   <div *ngIf="!cpDisableInput && (cpColorMode || 1) === 1" class="hex-text" [class.hex-alpha]="cpAlphaChannel==='forced'"
-    [style.display]="format !== 0 ? 'none' : 'block'">
+       [style.display]="format !== 0 ? 'none' : 'block'">
     <div class="box">
       <input [text] [value]="hexText" (blur)="onHexInput(null)" (keyup.enter)="onAcceptColor($event)" (newValue)="onHexInput($event)"/>
       <input *ngIf="cpAlphaChannel==='forced'" type="number" pattern="[0-9]+([\.,][0-9]{1,2})?" min="0" max="1" step="0.1" [text] [rg]="1" [value]="hexAlpha" (keyup.enter)="onAcceptColor($event)" (newValue)="onAlphaInput($event)"/>
@@ -100,6 +100,26 @@
   <div *ngIf="!cpDisableInput && (cpColorMode || 1) === 1" class="type-policy">
     <span class="type-policy-arrow" (click)="onFormatToggle(-1)"></span>
     <span class="type-policy-arrow" (click)="onFormatToggle(1)"></span>
+  </div>
+
+  <div class="preset-area" *ngIf="cpFavouriteColorButton">
+
+    <div class="favourite-label-container">
+      <div class="favourite-label">{{cpFavouriteLabel}}</div>
+      <div *ngIf="!cpDeleteFavouriteColorButton; else saveButton" class="favourite-edit-button" (click)="enableEditFavouriteColor()"></div>
+      <ng-template #saveButton>
+        <div class="favourite-save-button" (click)="saveFavouriteColor()"></div>
+      </ng-template>
+    </div>
+
+    <div class="{{cpFavouriteColorsClass}}">
+      <div *ngFor="let color of cpFavouriteColors" class="preset-color" [style.backgroundColor]="color" (click)="setColorFromString(color)">
+        <span *ngIf="cpDeleteFavouriteColorButton" class="{{cpRemoveColorButtonClass}} remove-favourite" (click)="onRemoveFavouriteColor($event, color)"></span>
+      </div>
+      <div class="preset-color add-favourite-color" *ngIf="cpFavouriteColors.length !== cpMaxFavouriteColorsLength && !cpDeleteFavouriteColorButton" (click)="onAddFavouriteColor($event, selectedColor)"></div>
+      <div *ngIf="!cpFavouriteColors?.length && cpDeleteFavouriteColorButton" class="{{cpPresetEmptyMessageClass}}">{{cpFavouriteEmptyMessage}}</div>
+    </div>
+
   </div>
 
   <div *ngIf="cpPresetColors?.length || cpAddColorButton" class="preset-area">
