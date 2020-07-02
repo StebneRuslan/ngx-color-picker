@@ -791,38 +791,38 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
   
   public onAddPresetColor(event: any, value: string): void {
     event.stopPropagation();
-    
+
     if (!this.cpPresetColors.filter((color) => (color === value)).length) {
       this.cpPresetColors = this.cpPresetColors.concat(value);
-      
+
       this.directiveInstance.presetColorsChanged(this.cpPresetColors);
     }
   }
-  
+
   public onAddFavouriteColor(event: any, value: string): void {
     event.stopPropagation();
     if (this.cpFavouriteColors.length < this.cpMaxFavouriteColorsLength && !this.cpFavouriteColors.filter((color) => (color === value)).length) {
       this.cpFavouriteColors = this.cpFavouriteColors.concat(value);
-      this.directiveInstance.addFavouriteColor(value);
+      this.directiveInstance.addFavouriteColor(this.cpFavouriteColors);
     }
   }
-  
+
   public onRemovePresetColor(event: any, value: string): void {
     event.stopPropagation();
-    
+
     this.cpPresetColors = this.cpPresetColors.filter((color) => (color !== value));
-    
+
     this.directiveInstance.presetColorsChanged(this.cpPresetColors);
   }
-  
+
   public onRemoveFavouriteColor(event: any, value: string): void {
     event.stopPropagation();
-    
+
     this.cpFavouriteColors = this.cpFavouriteColors.filter((color) => (color !== value));
   }
-  
+
   // Private helper functions for the color picker dialog status
-  
+
   private openColorPicker(): void {
     if (!this.show) {
       this.show = true;
@@ -846,7 +846,7 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
       window.addEventListener('resize', this.listenerResize);
     }
   }
-  
+
   private closeColorPicker(): void {
     if (this.show) {
       this.show = false;
@@ -865,7 +865,7 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
   }
-  
+
   private updateColorPicker(emit: boolean = true, update: boolean = true, cmykInput: boolean = false): void {
     if (this.sliderDimMax) {
       if (this.cpColorMode === 2) {
@@ -959,9 +959,9 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
   }
-  
+
   // Private helper functions for the color picker dialog positioning
-  
+
   private setDialogPosition(): void {
     if (this.cpDialogDisplay === 'inline') {
       this.position = 'relative';
@@ -1063,23 +1063,23 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
   }
-  
+
   // Private helper functions for the color picker dialog positioning and opening
-  
+
   private isDescendant(parent: any, child: any): boolean {
     let node: any = child.parentNode;
-    
+
     while (node !== null) {
       if (node === parent) {
         return true;
       }
-      
+
       node = node.parentNode;
     }
-    
+
     return false;
   }
-  
+
   private createDialogBox(element: any, offset: boolean): any {
     return {
       top: element.getBoundingClientRect().top + (offset ? window.pageYOffset : 0),
@@ -1088,13 +1088,13 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
       height: element.offsetHeight
     };
   }
-  
+
   public enableEditFavouriteColor(): void {
     if (this.cpFavouriteColors.length) {
       this.cpDeleteFavouriteColorButton = true;
     }
   }
-  
+
   public saveFavouriteColor(): void {
     this.cpDeleteFavouriteColorButton = false;
     this.directiveInstance.favouriteColorsChanged(this.cpFavouriteColors);

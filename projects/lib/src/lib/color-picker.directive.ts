@@ -70,7 +70,7 @@ export class ColorPickerDirective implements OnChanges, OnDestroy {
   
   @Input() cpFavouriteLabel: string = 'Favourite colors';
   @Input() cpFavouriteColors: string[];
-  @Input() cpFavouriteColorsClass: string = 'cp-preset-colors-class';
+  @Input() cpFavouriteColorsClass: string = 'cp-favourite-colors-class';
   @Input() cpMaxFavouriteColorsLength: number = 6;
   
   @Input() cpFavouriteEmptyMessage: string = 'No colors added';
@@ -316,7 +316,7 @@ export class ColorPickerDirective implements OnChanges, OnDestroy {
     this.cpPresetColorsChange.emit(value);
   }
   
-  public addFavouriteColor(value: string): void {
+  public addFavouriteColor(value: any[]): void {
     this.cpFavouriteColorsAdded.emit(value);
   }
   
